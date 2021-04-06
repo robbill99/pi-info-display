@@ -40,15 +40,13 @@ weather, covid = scrape.get_data()
 font_title = pygame.font.Font(None, 50)
 font_regular = pygame.font.Font(None, 35)
 
-#touch_buttons = {'TEST':(80,60), 'BUM':(240,60), 'MINGE':(80,180), 'QUIM':(240,180)}
-
 text_surface = font_title.render("Jersey Covid Data", True, ORANGE)
-rect = text_surface.get_rect(topleft=(20,20))
+rect = text_surface.get_rect(topleft=(30,20))
 lcd.blit(text_surface, rect)
 
 
 text_surface = font_regular.render(covid[0]+": "+covid[1], True, WHITE)
-rect = text_surface.get_rect(topleft=(20,40))
+rect = text_surface.get_rect(topleft=(30,55))
 lcd.blit(text_surface, rect)
 
 
@@ -84,14 +82,15 @@ def getPixelsFromCoordinates(coords):
 
 #Main loop
 while True:
-    sleep(1)
+    for event in touch.read_loop():
+        if event.type == evdev.ecodes.EV_KEY:
+            print("QUIT")
+            pygame.quit()
+            exit()
+
 else:
     pygame.quit()
-    quit()
+    exit()
 
-#    state=4
-#
-#    for event in touch.read_loop():
-#        if event.type == evdev.ecodes.EV_ABS:
 #            print(state)
 #            sleep(0.2)
