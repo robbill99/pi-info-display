@@ -2,6 +2,7 @@
 
 import os
 import sys
+import io
 from time import sleep
 
 import evdev
@@ -36,7 +37,7 @@ def display_page1(lcd, covid):
     pygame.display.update()
 
 #Page 2 data script
-def display_page2(lcd, weather):
+def display_page2(lcd, weather, img):
 
     lcd.fill((BLACK))
     pygame.display.update()
@@ -55,6 +56,12 @@ def display_page2(lcd, weather):
     text_surface = font_title.render("Current: "+weather[2], True, BLUE)
     rect = text_surface.get_rect(topleft=(30,100))
     lcd.blit(text_surface, rect)
+
+    weather_icon = pygame.image.load(img)
+    weather_icon.convert()
+    rect = weather_icon.get_rect(topleft=(100,100))
+    lcd.blit(weather_icon, rect)
+    
 
     pygame.display.update()
 
@@ -132,7 +139,8 @@ def main():
     lcd.fill((BLACK))
     pygame.display.update()
 
-    weather, covid = scrape.get_data()
+    weather, covid, icon = scrape.get_data()
+    img = io.BytesIO(icon.content)
     display_page1(lcd, covid)
 
     count = 0
@@ -147,7 +155,7 @@ def main():
                     pygame.quit()
                     sys.exit()
                 elif (count % 4) == 0:
-                    display_page2(lcd, weather)
+                    display_page2(lcd, weather, img)
                     sleep(1)
                 elif (count % 2) == 0:
                     display_page1(lcd, covid)
