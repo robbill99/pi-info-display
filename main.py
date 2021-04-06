@@ -149,12 +149,9 @@ def main():
                     pygame.quit()
                     sys.exit()
                 elif (count % 2) == 0:
-                    display_page2()
-                    sleep(2)
+                    display_page2(lcd)
                 else:
-                    display_page1()
-                    sleep(2)
-
+                    display_page1(lcd)
 
 
 if __name__ == "__main__":
