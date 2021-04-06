@@ -52,8 +52,8 @@ def display_page2(lcd, weather):
     rect = text_surface.get_rect(topleft=(30,55))
     lcd.blit(text_surface, rect)
 
-    text_surface = font_regular.render("Current: "+weather[2], True, BLUE)
-    rect = text_surface.get_rect(topleft=(30,80))
+    text_surface = font_title.render("Current: "+weather[2], True, BLUE)
+    rect = text_surface.get_rect(topleft=(30,100))
     lcd.blit(text_surface, rect)
 
     pygame.display.update()
@@ -142,14 +142,14 @@ def main():
             if event.type == evdev.ecodes.EV_KEY:
                 count += 1
                 print(count)
-                if count == 10:
+                if count == 20:
                     print("QUIT")
                     pygame.quit()
                     sys.exit()
-                elif (count % 2) == 0:
+                elif (count % 4) == 0:
                     display_page2(lcd, weather)
                     sleep(1)
-                elif (count % 1) == 0:
+                elif (count % 2) == 0:
                     display_page1(lcd, covid)
                     sleep(1)
                 else:
