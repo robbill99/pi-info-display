@@ -48,12 +48,12 @@ def display_page2(lcd, weather):
     rect = text_surface.get_rect(topleft=(30,20))
     lcd.blit(text_surface, rect)
 
-    text_surface = font_regular.render("Current: "+weather[2], True, BLUE)
-    rect = text_surface.get_rect(topleft=(30,120))
-    lcd.blit(text_surface, rect)
-
     text_surface = font_regular.render("Max: "+weather[0]+"  Min: "+weather[1], True, WHITE)
     rect = text_surface.get_rect(topleft=(30,55))
+    lcd.blit(text_surface, rect)
+
+    text_surface = font_regular.render("Current: "+weather[2], True, BLUE)
+    rect = text_surface.get_rect(topleft=(30,80))
     lcd.blit(text_surface, rect)
 
     pygame.display.update()
@@ -148,7 +148,7 @@ def main():
                 elif (count % 2) == 0:
                     display_page2(lcd, weather)
                     sleep(1)
-                else:
+                elif (count % 1) == 0:
                     display_page1(lcd, covid)
                     sleep(1)
 
