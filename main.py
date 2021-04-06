@@ -61,7 +61,7 @@ def display_page2(lcd, weather, img):
     weather_icon.convert()
     rect = weather_icon.get_rect(topleft=(100,100))
     lcd.blit(weather_icon, rect)
-    
+
 
     pygame.display.update()
 
@@ -140,7 +140,7 @@ def main():
     pygame.display.update()
 
     weather, covid, icon = scrape.get_data()
-    img = io.BytesIO(icon.content)
+    img = io.BytesIO(icon)
     display_page1(lcd, covid)
 
     count = 0

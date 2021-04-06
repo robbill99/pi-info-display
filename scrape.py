@@ -54,7 +54,7 @@ def get_data():
     icon_details = content.find("img")
     icon_url = icon_details.attrs["src"]
 
-    weather_icon_data = requests.get(icon_url).content
+    weather_icon_data = requests.get(icon_url)
 
     forecast = content.find("div", {"class": "forecastText"})
     forecast = forecast.text
