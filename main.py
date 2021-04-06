@@ -18,11 +18,9 @@ BLUE = (0, 20, 200)
 
 #Page 1 data script
 def display_page1(lcd, covid):
-weather, covid = scrape.get_data()
+
     lcd.fill((BLACK))
     pygame.display.update()
-
-
 
     font_title = pygame.font.Font(None, 50)
     font_regular = pygame.font.Font(None, 35)
@@ -42,8 +40,6 @@ def display_page2(lcd, weather):
 
     lcd.fill((BLACK))
     pygame.display.update()
-
-    weather, covid = scrape.get_data()
 
     font_title = pygame.font.Font(None, 50)
     font_regular = pygame.font.Font(None, 35)
@@ -132,7 +128,7 @@ def main():
     touch.grab()
 
     pygame.mouse.set_visible(False)
-    lcd = py
+    lcd = pygame.display.set_mode((surface_size))
     game.display.set_mode((surface_size ))
     lcd.fill((BLACK))
     pygame.display.update()
