@@ -56,7 +56,7 @@ def display_page2(lcd):
     rect = text_surface.get_rect(topleft=(30,20))
     lcd.blit(text_surface, rect)
 
-    text_surface = font_regular.render("Max: "weather[0]+"  Min: "+weather[1], True, WHITE)
+    text_surface = font_regular.render("Max: "+weather[0]+"  Min: "+weather[1], True, WHITE)
     rect = text_surface.get_rect(topleft=(30,55))
     lcd.blit(text_surface, rect)
 
