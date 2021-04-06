@@ -129,7 +129,6 @@ def main():
 
     pygame.mouse.set_visible(False)
     lcd = pygame.display.set_mode((surface_size))
-    game.display.set_mode((surface_size ))
     lcd.fill((BLACK))
     pygame.display.update()
 
