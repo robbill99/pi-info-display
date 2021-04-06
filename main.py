@@ -1,5 +1,7 @@
 #!/usr/bin/python3
+
 import os
+import sys
 from time import sleep
 
 import evdev
@@ -13,60 +15,29 @@ WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 ORANGE = (255, 165, 0)
 
-#Display to Framebuffer
-os.putenv('SDL_FBDEV', '/dev/fb1')
+#Page 1 data script
+def display_page1(lcd):
 
-#Init pygame, 3.5" touchscreen
-pygame.init()
-surface_size = (480, 320)
+    lcd.fill((BLACK))
+    pygame.display.update()
 
-#Touchscreen map
-#THIS MAY BE WRONG
-#tftOrig = (3750, 180)
-#tftEnd = (150, 3750)
-#tftDelta = (tftEnd[0] - tftOrig[0], tftEnd[1] - tftOrig[1])
-#tftAbsDelta = (abs(tftEnd [0] - tftOrig [0]), abs(tftEnd [1] - tftOrig [1]))
+    weather, covid = scrape.get_data()
 
-# Create touchscreen object using evdev
-touch = evdev.InputDevice('/dev/input/touchscreen')
+    font_title = pygame.font.Font(None, 50)
+    font_regular = pygame.font.Font(None, 35)
 
-pygame.mouse.set_visible(False)
-lcd = pygame.display.set_mode((surface_size))
-lcd.fill((BLACK))
-pygame.display.update()
+    text_surface = font_title.render("Jersey Covid Data", True, ORANGE)
+    rect = text_surface.get_rect(topleft=(30,20))
+    lcd.blit(text_surface, rect)
 
-weather, covid = scrape.get_data()
+    text_surface = font_regular.render(covid[0]+": "+covid[1], True, WHITE)
+    rect = text_surface.get_rect(topleft=(30,55))
+    lcd.blit(text_surface, rect)
 
-font_title = pygame.font.Font(None, 50)
-font_regular = pygame.font.Font(None, 35)
-
-text_surface = font_title.render("Jersey Covid Data", True, ORANGE)
-rect = text_surface.get_rect(topleft=(30,20))
-lcd.blit(text_surface, rect)
+    pygame.display.update()
 
 
-text_surface = font_regular.render(covid[0]+": "+covid[1], True, WHITE)
-rect = text_surface.get_rect(topleft=(30,55))
-lcd.blit(text_surface, rect)
-
-
-#for k,v in touch_buttons.items():
-#    text_surface = font_big.render('%s'%k, True, WHITE)
-#    rect = text_surface.get_rect(center=v)
-#    lcd.blit(text_surface, rect)
-
-pygame.display.update()
-
-
-# We make sure the events from the touchscreen will be handled only by this program
-# (so the mouse pointer won't move on X when we touch the TFT screen)
-touch.grab()
-# Prints some info on how evdev sees our input device
-print(touch)
-# Even more info for curious people
-#print(touch.capabilities())
-
-# Here we convert the evdev "hardware" touch coordinates into pygame surface pixel coordinates
+# convert the evdev "hardware" touch coordinates into pygame surface pixel coordinates
 def getPixelsFromCoordinates(coords):
     # TODO check divide by 0!
     if tftDelta [0] < 0:
@@ -80,17 +51,57 @@ def getPixelsFromCoordinates(coords):
     return (int(x), int(y))
 
 
-#Main loop
-while True:
-    for event in touch.read_loop():
-        if event.type == evdev.ecodes.EV_KEY:
-            print("QUIT")
-            pygame.quit()
-            exit()
+def main():
 
-else:
-    pygame.quit()
-    exit()
+    #Display to Framebuffer
+    os.putenv('SDL_FBDEV', '/dev/fb1')
 
-#            print(state)
-#            sleep(0.2)
+    #Init pygame, 3.5" touchscreen
+    pygame.init()
+    surface_size = (480, 320)
+
+
+    # Create touchscreen object using evdev, grab mouse
+    touch = evdev.InputDevice('/dev/input/touchscreen')
+    touch.grab()
+
+    pygame.mouse.set_visible(False)
+    lcd = pygame.display.set_mode((surface_size))
+    lcd.fill((BLACK))
+    pygame.display.update()
+
+    display_page1(lcd)
+
+    while True:
+        for event in touch.read_loop():
+            if event.type == evdev.ecodes.EV_KEY:
+                print("QUIT")
+                pygame.quit()
+                sys.exit()
+
+    else:
+
+
+if __name__ == "__main__":
+    main()
+
+
+
+
+
+
+
+
+
+    #Touchscreen map
+    #THIS MAY BE WRONG
+    #tftOrig = (3750, 180)
+    #tftEnd = (150, 3750)
+    #tftDelta = (tftEnd[0] - tftOrig[0], tftEnd[1] - tftOrig[1])
+    #tftAbsDelta = (abs(tftEnd [0] - tftOrig [0]), abs(tftEnd [1] - tftOrig [1]))
+
+
+    #for k,v in touch_buttons.items():
+    #    text_surface = font_big.render('%s'%k, True, WHITE)
+    #    rect = text_surface.get_rect(center=v)
+    #    lcd.blit(text_surface, rect)
