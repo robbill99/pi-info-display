@@ -17,12 +17,12 @@ ORANGE = (255, 165, 0)
 BLUE = (0, 20, 200)
 
 #Page 1 data script
-def display_page1(lcd):
-
+def display_page1(lcd, covid):
+weather, covid = scrape.get_data()
     lcd.fill((BLACK))
     pygame.display.update()
 
-    weather, covid = scrape.get_data()
+
 
     font_title = pygame.font.Font(None, 50)
     font_regular = pygame.font.Font(None, 35)
@@ -38,7 +38,7 @@ def display_page1(lcd):
     pygame.display.update()
 
 #Page 2 data script
-def display_page2(lcd):
+def display_page2(lcd, weather):
 
     lcd.fill((BLACK))
     pygame.display.update()
@@ -53,7 +53,7 @@ def display_page2(lcd):
     lcd.blit(text_surface, rect)
 
     text_surface = font_regular.render("Current: "+weather[2], True, BLUE)
-    rect = text_surface.get_rect(topleft=(30,20))
+    rect = text_surface.get_rect(topleft=(70,20))
     lcd.blit(text_surface, rect)
 
     text_surface = font_regular.render("Max: "+weather[0]+"  Min: "+weather[1], True, WHITE)
@@ -132,11 +132,13 @@ def main():
     touch.grab()
 
     pygame.mouse.set_visible(False)
-    lcd = pygame.display.set_mode((surface_size))
+    lcd = py
+    game.display.set_mode((surface_size ))
     lcd.fill((BLACK))
     pygame.display.update()
 
-    display_page1(lcd)
+    weather, covid = scrape.get_data()
+    display_page1(lcd, covid)
 
     count = 0
 
@@ -149,9 +151,9 @@ def main():
                     pygame.quit()
                     sys.exit()
                 elif (count % 2) == 0:
-                    display_page2(lcd)
+                    display_page2(lcd, weather)
                 else:
-                    display_page1(lcd)
+                    display_page1(lcd, covid)
 
 
 if __name__ == "__main__":
