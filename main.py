@@ -150,8 +150,10 @@ def main():
                     sys.exit()
                 elif (count % 2) == 0:
                     display_page2()
+                    sleep(2)
                 else:
                     display_page1()
+                    sleep(2)
 
 
 
