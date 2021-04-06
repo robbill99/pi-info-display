@@ -149,9 +149,9 @@ def main():
                     pygame.quit()
                     sys.exit()
                 elif (count % 2) == 0:
-                    display_page2
+                    display_page2()
                 else:
-                    display_page1
+                    display_page1()
 
 
 
