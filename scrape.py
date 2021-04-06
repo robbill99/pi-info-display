@@ -64,5 +64,7 @@ def get_data():
     return weather, covid_data
 
 
-if "__name__" == "__main__":
+if __name__ == "__main__":
+    print("Module only")
     pass
+    
