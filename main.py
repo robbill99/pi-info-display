@@ -37,7 +37,7 @@ def display_page1(lcd, covid):
     pygame.display.update()
 
 #Page 2 data script
-def display_page2(lcd, weather, img):
+def display_page2(lcd, weather):
 
     lcd.fill((BLACK))
     pygame.display.update()
@@ -57,10 +57,10 @@ def display_page2(lcd, weather, img):
     rect = text_surface.get_rect(topleft=(30,100))
     lcd.blit(text_surface, rect)
 
-    weather_icon = pygame.image.load(img)
-    weather_icon.convert()
-    rect = weather_icon.get_rect(topleft=(100,100))
-    lcd.blit(weather_icon, rect)
+    #weather_icon = pygame.image.load(img)
+    #weather_icon.convert()
+    #rect = weather_icon.get_rect(topleft=(100,100))
+    #lcd.blit(weather_icon, rect)
 
 
     pygame.display.update()
@@ -139,8 +139,12 @@ def main():
     lcd.fill((BLACK))
     pygame.display.update()
 
-    weather, covid, icon = scrape.get_data()
-    img = io.BytesIO(icon)
+    weather, covid = scrape.get_data()
+
+    #I think it's better to have the icon png's in a file
+    #and select from the scraped img url
+    #rather than downloading the images every time
+    print (weather[4])
     display_page1(lcd, covid)
 
     count = 0
@@ -155,7 +159,7 @@ def main():
                     pygame.quit()
                     sys.exit()
                 elif (count % 4) == 0:
-                    display_page2(lcd, weather, img)
+                    display_page2(lcd, weather)
                     sleep(1)
                 elif (count % 2) == 0:
                     display_page1(lcd, covid)

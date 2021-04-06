@@ -20,6 +20,7 @@ def get_data():
     r=requests.get(covid_url)
     covid=r.json()
 
+    #I think this is quite slow on Pi 1 parsing the whole json dataset
     latest=covid["COVID19"][0]
     lastday=covid["COVID19"][1]
 
@@ -46,6 +47,7 @@ def get_data():
     for i in content.findAll("span"):
         weather.append(i.text)
 
+    #dump rubbish
     del weather[0]
     del weather[1]
     del weather[2]
@@ -54,14 +56,14 @@ def get_data():
     icon_details = content.find("img")
     icon_url = icon_details.attrs["src"]
 
-    weather_icon_data = requests.get(icon_url).content
+    weather.append(icon_url)
 
     forecast = content.find("div", {"class": "forecastText"})
     forecast = forecast.text
 
     weather.append(forecast)
 
-    return weather, covid_data, weather_icon_data
+    return weather, covid_data
 
 
 if __name__ == "__main__":
