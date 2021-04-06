@@ -14,6 +14,7 @@ import scrape
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 ORANGE = (255, 165, 0)
+BLUE = (0, 20, 200)
 
 #Page 1 data script
 def display_page1(lcd):
@@ -30,12 +31,77 @@ def display_page1(lcd):
     rect = text_surface.get_rect(topleft=(30,20))
     lcd.blit(text_surface, rect)
 
-    text_surface = font_regular.render(covid[0]+": "+covid[1], True, WHITE)
+    text_surface = font_regular.render("Date: "covid[0]+" Active cases: "+covid[1], True, WHITE)
     rect = text_surface.get_rect(topleft=(30,55))
     lcd.blit(text_surface, rect)
 
     pygame.display.update()
 
+#Page 2 data script
+def display_page2(lcd):
+
+    lcd.fill((BLACK))
+    pygame.display.update()
+
+    weather, covid = scrape.get_data()
+
+    font_title = pygame.font.Font(None, 50)
+    font_regular = pygame.font.Font(None, 35)
+
+    text_surface = font_title.render("Jersey Weather", True, ORANGE)
+    rect = text_surface.get_rect(topleft=(30,20))
+    lcd.blit(text_surface, rect)
+
+    text_surface = font_regular.render("Current: "+weather[2], True, BLUE)
+    rect = text_surface.get_rect(topleft=(30,20))
+    lcd.blit(text_surface, rect)
+
+    text_surface = font_regular.render("Max: "weather[0]+"  Min: "+weather[1], True, WHITE)
+    rect = text_surface.get_rect(topleft=(30,55))
+    lcd.blit(text_surface, rect)
+
+    pygame.display.update()
+
+# draw some text into an area of a surface
+# automatically wraps words
+# returns any text that didn't get blitted
+def drawText(surface, text, color, rect, font, aa=False, bkg=None):
+    rect = pygame.Rect(rect)
+    y = rect.top
+    lineSpacing = -2
+
+    # get the height of the font
+    fontHeight = font.size("Tg")[1]
+
+    while text:
+        i = 1
+
+        # determine if the row of text will be outside our area
+        if y + fontHeight > rect.bottom:
+            break
+
+        # determine maximum width of line
+        while font.size(text[:i])[0] < rect.width and i < len(text):
+            i += 1
+
+        # if we've wrapped the text, then adjust the wrap to the last word
+        if i < len(text):
+            i = text.rfind(" ", 0, i) + 1
+
+        # render the line and blit it to the surface
+        if bkg:
+            image = font.render(text[:i], 1, color, bkg)
+            image.set_colorkey(bkg)
+        else:
+            image = font.render(text[:i], aa, color)
+
+        surface.blit(image, (rect.left, y))
+        y += fontHeight + lineSpacing
+
+        # remove the text we just blitted
+        text = text[i:]
+
+    return text
 
 # convert the evdev "hardware" touch coordinates into pygame surface pixel coordinates
 def getPixelsFromCoordinates(coords):
@@ -72,15 +138,21 @@ def main():
 
     display_page1(lcd)
 
+    count = 0
+
     while True:
         for event in touch.read_loop():
             if event.type == evdev.ecodes.EV_KEY:
-                print("QUIT")
-                pygame.quit()
-                sys.exit()
+                count += 1
+                if count == 10:
+                    print("QUIT")
+                    pygame.quit()
+                    sys.exit()
+                elif (count % 2) == 0:
+                    display_page2
+                else:
+                    display_page1
 
-    else:
-        pass
 
 
 if __name__ == "__main__":
