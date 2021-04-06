@@ -31,7 +31,7 @@ def display_page1(lcd):
     rect = text_surface.get_rect(topleft=(30,20))
     lcd.blit(text_surface, rect)
 
-    text_surface = font_regular.render("Date: "covid[0]+" Active cases: "+covid[1], True, WHITE)
+    text_surface = font_regular.render("Date: "+covid[0]+" Active cases: "+covid[1], True, WHITE)
     rect = text_surface.get_rect(topleft=(30,55))
     lcd.blit(text_surface, rect)
 
