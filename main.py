@@ -49,7 +49,7 @@ def display_page2(lcd, weather):
     lcd.blit(text_surface, rect)
 
     text_surface = font_regular.render("Current: "+weather[2], True, BLUE)
-    rect = text_surface.get_rect(topleft=(70,20))
+    rect = text_surface.get_rect(topleft=(30,120))
     lcd.blit(text_surface, rect)
 
     text_surface = font_regular.render("Max: "+weather[0]+"  Min: "+weather[1], True, WHITE)
@@ -147,8 +147,10 @@ def main():
                     sys.exit()
                 elif (count % 2) == 0:
                     display_page2(lcd, weather)
+                    sleep(1)
                 else:
                     display_page1(lcd, covid)
+                    sleep(1)
 
 
 if __name__ == "__main__":
