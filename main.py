@@ -141,6 +141,7 @@ def main():
         for event in touch.read_loop():
             if event.type == evdev.ecodes.EV_KEY:
                 count += 1
+                print(count)
                 if count == 10:
                     print("QUIT")
                     pygame.quit()
@@ -151,6 +152,8 @@ def main():
                 elif (count % 1) == 0:
                     display_page1(lcd, covid)
                     sleep(1)
+                else:
+                    print("pass")
 
 
 if __name__ == "__main__":
