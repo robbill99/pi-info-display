@@ -87,12 +87,14 @@ def getPixelsFromCoordinates(coords):
 
 #Main loop
 while True:
+    sleep(1)
+else:
+    pygame.quit()
+    quit()
+
 #    state=4
 #
 #    for event in touch.read_loop():
 #        if event.type == evdev.ecodes.EV_ABS:
 #            print(state)
 #            sleep(0.2)
-
-pygame.quit()
-quit()
