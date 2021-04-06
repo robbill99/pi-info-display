@@ -43,16 +43,16 @@ font_regular = pygame.font.Font(None, 20)
 #touch_buttons = {'TEST':(80,60), 'BUM':(240,60), 'MINGE':(80,180), 'QUIM':(240,180)}
 
 text_surface = font_title.render("Jersey Covid Data", True, ORANGE)
-rect = text_surface.get_rect(center=(50,20))
+rect = text_surface.get_rect(center=(100,20))
 lcd.blit(text_surface, rect)
 
 
 text_surface = font_regular.render(covid[0], True, WHITE)
-rect = text_surface.get_rect(center=(50,80))
+rect = text_surface.get_rect(center=(100,80))
 lcd.blit(text_surface, rect)
 
 text_surface = font_regular.render(covid[1], True, WHITE)
-rect = text_surface.get_rect(center=(50,80))
+rect = text_surface.get_rect(center=(250,80))
 lcd.blit(text_surface, rect)
 
 #for k,v in touch_buttons.items():
