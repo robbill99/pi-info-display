@@ -47,11 +47,11 @@ rect = text_surface.get_rect(center=(20,20))
 lcd.blit(text_surface, rect)
 
 
-text_surface = font_regular.render(covid[0])
+text_surface = font_regular.render(covid[0], True, WHITE)
 rect = text_surface.get_rect(center=(20,50))
 lcd.blit(text_surface, rect)
 
-text_surface = font_regular.render(covid[1])
+text_surface = font_regular.render(covid[1], True, WHITE)
 rect = text_surface.get_rect(center=(40,50))
 lcd.blit(text_surface, rect)
 
