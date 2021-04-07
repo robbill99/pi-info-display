@@ -21,15 +21,41 @@ def get_data():
     covid=r.json()
 
     #I think this is quite slow on Pi 1 parsing the whole json dataset
-    latest=covid["COVID19"][0]
-    lastday=covid["COVID19"][1]
-
+    #Get the last 7 days - should be faster parsing info from a dict of 7 days rather than 200+
     covid_data = []
-    covid_data.append(latest["Date"])
-    covid_data.append(latest["KnownActiveCases"])
-
-    total = latest["Totaltests"]
-
+    for i in range(6):
+        covid_data.append(covid["COVID19"][i])
+    
+    #Put last 7 days of required data categories into lists
+    covid_date = []
+    for i in range(6):
+        covid_date.append(covid_data["Date"][i])
+    
+    covid_active = []
+    for i in range(6):
+        covid_date.append(covid_data["KnownActiveCases"][i])
+    
+    covid_totaltests = []
+    for i in range(6):
+        covid_totaltests.append(covid_data["Totaltests"][i])
+    
+    #calculate last number of tests
+    
+    if covid_totaltests[0] == 0:
+        covid_newtests = 0
+    else:
+        count = 1
+        while covid_totaltests[count] == 0:
+            count += 1
+        
+        covid_newtests = covid_totaltests[count+1] - covid_totaltests[count]
+        
+        
+    #latest=covid["COVID19"][0]
+    #lastday=covid["COVID19"][1]  
+    #covid_data.append(latest["Date"])
+    #covid_data.append(latest["KnownActiveCases"])
+    #total = latest["Totaltests"]
     #tests=int(latest["Totaltests"]) - int(lastday["Totaltests"])
 
     #obviously can make some lists of historic data and do calculations
